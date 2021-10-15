@@ -21,7 +21,7 @@ let getTime = new Promise (function(resolve, reject){
 
 let getInformation = fetch('https://api.github.com/users/' + getNameFromUrl(url))
 
-Promise.all([getInformation, getTime])
+Promise.all([getTime, getInformation])
 	.then(res => res.json())
 	.then(json => {
 		userPhoto = json.avatar_url;
@@ -32,6 +32,7 @@ Promise.all([getInformation, getTime])
 		let photo = new Image();   // Создаёт новый элемент изображения
 		photo.src = userPhoto; // Устанавливает путь
 		body.append(photo);
+		photo.classList.add('avatar');
 
         let name = document.createElement('h1');
         if (userName != null) {
@@ -55,6 +56,6 @@ Promise.all([getInformation, getTime])
         document.body.append(time);
 	})
 
-.catch (err => err.innerHTML('Информация о пользователе недоступна'))
+.catch (err => alert('Информация о пользователе недоступна'))
 
 
