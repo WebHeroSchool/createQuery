@@ -1,6 +1,9 @@
 let body = document.body;
 let url = window.location.toString();
 
+
+
+
 let getNameFromUrl = function(url){
 	let divUrl = url.split('=');
 	let name = divUrl[1];
@@ -10,7 +13,15 @@ let getNameFromUrl = function(url){
 return name;
 }
 
-fetch('https://api.github.com/users/' + getNameFromUrl(url))
+let date = new Date();
+let getTime = new Promise (function(resolve, reject){
+	setTimeout(() => date ? resolve(date) : reject('Дата не обнаружена'), 2000)
+});
+
+
+let getInformation = fetch('https://api.github.com/users/' + getNameFromUrl(url))
+
+Promise.all([getInformation, getTime])
 	.then(res => res.json())
 	.then(json => {
 		userPhoto = json.avatar_url;
@@ -38,6 +49,10 @@ fetch('https://api.github.com/users/' + getNameFromUrl(url))
             bio.innerHTML = 'Описание профиля пользователя недоступно';
         }
         body.append(bio);
+
+        let time = document.createElement('p');
+        time.innerHTML = date;
+        document.body.append(time);
 	})
 
 .catch (err => err.innerHTML('Информация о пользователе недоступна'))
