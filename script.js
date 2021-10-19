@@ -25,9 +25,10 @@ let getTime = new Promise (function(resolve, reject){
 
 let getInformation = fetch('https://api.github.com/users/' + getNameFromUrl(url))
 
-Promise.all([getTime, getInformation])
+Promise.all([getTime, getInformation, preloader])
 	getInformation.then(res => res.json())
 	.then(json => {
+		preloader.classList.add('hidden');
 		userPhoto = json.avatar_url;
 		userName = json.name;
 		userBio = json.bio;

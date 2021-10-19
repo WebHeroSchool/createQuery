@@ -11,8 +11,13 @@ body{
 }
 
 .visible {
-  visibility: hidden;
-  display: none;
+    visibility: visible;
+    opacity: 1;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
 }
 
 #preloader {
