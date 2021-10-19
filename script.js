@@ -1,6 +1,13 @@
 let body = document.body;
 let url = window.location.toString();
 
+let preloader = document.getElementById('preloader');
+setTimeout(function() {
+  preloader.classList.add('visible');
+}, 3000);
+
+
+
 let getNameFromUrl = function(url){
 	let divUrl = url.split('=');
 	let name = divUrl[1];
@@ -10,9 +17,18 @@ let getNameFromUrl = function(url){
 return name;
 }
 
-fetch('https://api.github.com/users/' + getNameFromUrl(url))
-	.then(res => res.json())
+let date = new Date();
+let getTime = new Promise (function(resolve, reject){
+	setTimeout(() => date ? resolve(date) : reject('Дата не обнаружена'), 2000)
+});
+
+
+let getInformation = fetch('https://api.github.com/users/' + getNameFromUrl(url))
+
+Promise.all([getTime, getInformation])
+	.then(res => res[1].json())
 	.then(json => {
+		preloader.classList.add('hidden');
 		userPhoto = json.avatar_url;
 		userName = json.name;
 		userBio = json.bio;
@@ -21,6 +37,7 @@ fetch('https://api.github.com/users/' + getNameFromUrl(url))
 		let photo = new Image();   // Создаёт новый элемент изображения
 		photo.src = userPhoto; // Устанавливает путь
 		body.append(photo);
+		photo.classList.add('avatar');
 
         let name = document.createElement('h1');
         if (userName != null) {
@@ -38,8 +55,12 @@ fetch('https://api.github.com/users/' + getNameFromUrl(url))
             bio.innerHTML = 'Описание профиля пользователя недоступно';
         }
         body.append(bio);
+
+        let time = document.createElement('p');
+        time.innerHTML = date;
+        body.append(time);
 	})
 
-.catch (err => err.innerHTML('Информация о пользователе недоступна'))
+.catch (err => alert('Информация о пользователе недоступна'))
 
 
