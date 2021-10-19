@@ -22,7 +22,7 @@ let getTime = new Promise (function(resolve, reject){
 let getInformation = fetch('https://api.github.com/users/' + getNameFromUrl(url))
 
 Promise.all([getTime, getInformation])
-	.then(res => res.json())
+	getInformation.then(res => res.json())
 	.then(json => {
 		userPhoto = json.avatar_url;
 		userName = json.name;
@@ -53,7 +53,7 @@ Promise.all([getTime, getInformation])
 
         let time = document.createElement('p');
         time.innerHTML = date;
-        document.body.append(time);
+        body.append(time);
 	})
 
 .catch (err => alert('Информация о пользователе недоступна'))
