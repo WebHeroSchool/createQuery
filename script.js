@@ -25,7 +25,7 @@ let getTime = new Promise (function(resolve, reject){
 
 let getInformation = fetch('https://api.github.com/users/' + getNameFromUrl(url))
 
-Promise.all([getTime, getInformation, preloader])
+Promise.all([getTime, getInformation])
 	.then(res => res[1].json())
 	.then(json => {
 		preloader.classList.add('hidden');
