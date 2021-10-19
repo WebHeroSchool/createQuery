@@ -1,6 +1,10 @@
 let body = document.body;
 let url = window.location.toString();
 
+let preloader = document.getElementById('preloader');
+setTimeout(function() {
+  preloader.classList.add('visible');
+}, 3000);
 
 
 
